@@ -11,8 +11,10 @@ function App() {
 
   const fetchingDataFromUserComponent = (data) => {
     // console.log(data);
+    const name = data.name;
+    const age = data.age;
     setIsUserData((prevdata) => {
-      return [data,...prevdata]
+      return [...prevdata, { name, age, id: Math.random().toString() }]
     })
   }
   // console.log(isUserData);
