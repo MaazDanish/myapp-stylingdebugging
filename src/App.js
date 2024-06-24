@@ -1,27 +1,26 @@
 import React, { useState } from "react";
 import AddUser from "./component/Users/AddUser";
-import ItemList from "./component/ItemList/ItemList";
+import UsersList from "./component/Users/UsersList";
 
-const dataArray = [
-  
-];
+
+const userData = []
 
 function App() {
-  const [data, setData] = useState(dataArray);
+  const [isUserData, setIsUserData] = useState(userData);
 
-  const fetchingUserDataHandler = (dataFromForm) => {
-    // console.log(dataFromForm);
-    setData(prevData => {
-      return [dataFromForm,...prevData]
+
+  const fetchingDataFromUserComponent = (data) => {
+    // console.log(data);
+    setIsUserData((prevdata) => {
+      return [data,...prevdata]
     })
-
   }
-  // console.log(data);
+  // console.log(isUserData);
 
   return (
     <div>
-      <AddUser onfetchUserData={fetchingUserDataHandler} />
-      <ItemList userDataFromApp={data}/>
+      <AddUser onFetchDataFromUser={fetchingDataFromUserComponent} />
+      <UsersList users={isUserData}></UsersList>
     </div>
   );
 }

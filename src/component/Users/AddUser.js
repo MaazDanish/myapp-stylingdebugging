@@ -1,86 +1,60 @@
-import React, { useState } from "react";
-import Modal from "react-modal";
+// Write your code at relevant places in the code below:
 
-import './AddUser.css'
+import React, { useState } from "react";
+import './AddUser.css';
+import Card from '../UI/Card'
+import Button from '../UI/Button'
+import UsersList from "./UsersList";
+
 const AddUser = (props) => {
+
     const [userName, setUserName] = useState("");
     const [userAge, setUserAge] = useState("");
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalMessage, setModalMessage] = useState("");
+    // const [isValidInput, setIsValidInput] = useState(false);
 
 
-
-    const userNameHandler = (event) => {
-        // console.log(event.target.value);
+    const usernameHandler = (event) => {
         setUserName(event.target.value);
     }
-    const userAgeHandler = (event) => {
-        // console.log(event.target.value);
+
+    const ageHandler = (event) => {
         setUserAge(event.target.value);
     }
 
-    const userFormHandler = (event) => {
+
+    const addUserHandler = (event) => {
         event.preventDefault();
 
         if (userName.trim().length === 0 || userAge.trim().length === 0) {
-            console.log("hello both");
-            setModalMessage("Please enter a valid name and age (non-empty values).");
-            setIsModalOpen(true);
             return;
         }
 
-        if (+userAge < 0) {
-            console.log("hello frm less than zero");
-            setModalMessage("Please enter a valid age (> 0).");
-            setIsModalOpen(true);
+        if (userAge <= 0) {
             return;
         }
-
-        const userData = {
-            name: userName,
-            age: userAge
+        const usersdata = {
+            name: userName, age: userAge
         }
-        // console.log(userData);
-        props.onfetchUserData(userData);
+        props.onFetchDataFromUser(usersdata);
+        
+
         setUserName("");
         setUserAge("");
+    };
 
-    }
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    }
     return (
-        <>
-            <form onSubmit={userFormHandler} id="field-form">
-                <div className="new-expense__controls">
-                    <div className="new-expense__controls">
-                        <label htmlFor=""> Username:</label>
-                        <input type="text" id="username" value={userName} onChange={userNameHandler}></input>
-                    </div>
-                    <div className="new-expense__controls">
-                        <label htmlFor="age">Age (years)</label>
-                        <input type="text" id="age" value={userAge} onChange={userAgeHandler}></input>
-                    </div>
-                </div>
-                <div className="new-expense__actions">
-                    <button type="submit">Add User</button>
-                </div>
-
+        <Card className="input">
+            <form onSubmit={addUserHandler} >
+                <label htmlFor="username">Username</label>
+                <input id="username" type="text" value={userName} onChange={usernameHandler} />
+                <label htmlFor="age">Age</label>
+                <input id="age" type="number" value={userAge} onChange={ageHandler} />
+                <Button type="submit">Add User</Button>
             </form>
-            <Modal
-                isOpen={isModalOpen}
-                onRequestClose={closeModal}
-                contentLabel="Error Modal"
-                className="modal"
-                overlayClassName="modal-overlay"
-            >
-                <h2>Invalid input</h2>
-                <p>{modalMessage}</p>
-                <button onClick={closeModal}>OK</button>
-            </Modal>
-        </>
-    )
-}
+
+        </Card>
+    );
+};
 
 export default AddUser;
